@@ -21,21 +21,22 @@ class _WarehousePageState extends State<WarehousePage> {
         automaticallyImplyLeading: false,
       ),
       body: SafeArea(
-        child: ListView.builder(
+        child: Obx(() => ListView.builder(
           shrinkWrap: true,
-          itemCount: 4,
+          itemCount: wareC.dataList.length,
           itemBuilder: (ctx, idx) {
+            final warehouse = wareC.dataList[idx];
             return Card(
               child: ListTile(
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Bole Med",
+                      warehouse.name,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     Text(
-                      "Jan 15, 2022",
+                      warehouse.createdAt.split('T')[0], // Very basic date formatting
                       style: Theme.of(context).textTheme.bodySmall,
                     )
                   ],
@@ -55,27 +56,27 @@ class _WarehousePageState extends State<WarehousePage> {
                         ],
                       ),
                       RichText(
-                          text: const TextSpan(
+                          text: TextSpan(
                               text: "Total\t\t",
-                              style: TextStyle(color: Colors.black),
+                              style: const TextStyle(color: Colors.black),
                               children: [
                             TextSpan(
-                                text: "400",
-                                style: TextStyle(
+                                text: warehouse.totalInventories ?? "0",
+                                style: const TextStyle(
                                     color: Colors.redAccent,
                                     fontWeight: FontWeight.bold)),
-                            WidgetSpan(
+                            const WidgetSpan(
                                 child: SizedBox(
                               width: 20,
                             )),
-                            TextSpan(
+                            const TextSpan(
                               text: "Sold\t\t",
                               style: TextStyle(
                                 color: Colors.black,
                               ),
                             ),
-                            TextSpan(
-                              text: "12",
+                            const TextSpan(
+                              text: "0",
                               style: TextStyle(
                                   color: Colors.redAccent,
                                   fontWeight: FontWeight.bold),
@@ -88,7 +89,7 @@ class _WarehousePageState extends State<WarehousePage> {
               ),
             );
           },
-        ),
+        )),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

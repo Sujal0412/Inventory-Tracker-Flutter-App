@@ -19,11 +19,19 @@ class WarehouseRepository extends IWarehouseRepository {
       }, (queryResult) async => await isNetworkConnected());
 
   @override
-  Stream<Resource<Warehouse>> storeWarehouse(WarehouseAddDto warehouse) =>
-      networkRequest(() => apiService.warehouse.storeWarehouse(warehouse),
-          (fetchResult) => fetchResult.toWarehouse(), (transformedData) {
-        databaseService.warehouse.insertWarehouse(transformedData);
-      });
+  Stream<Resource<Warehouse>> storeWarehouse(WarehouseAddDto warehouse) async* {
+    yield const Resource.Loading(null);
+    await Future.delayed(const Duration(milliseconds: 500));
+    final newWarehouse = Warehouse(
+        id: DateTime.now().millisecondsSinceEpoch % 100000,
+        name: warehouse.name,
+        address: warehouse.address,
+        createdAt: DateTime.now().toIso8601String(),
+        totalInventories: "0"
+    );
+    await databaseService.warehouse.insertWarehouse(newWarehouse);
+    yield Resource.Success(newWarehouse);
+  }
 
   @override
   Stream<Resource<List<WarehouseStockInfo>>> lowInShop() => networkRequest(
@@ -32,27 +40,35 @@ class WarehouseRepository extends IWarehouseRepository {
       (transformedData) {});
 
   @override
-  Stream<Resource> deleteWarehouse(int id) => networkBoundResource(
-      () => databaseService.warehouse.deleteWarehouse(id).asStream(),
-      () => apiService.inventory.deleteInventory(id),
-      (fetchResult) async {},
-      (queryResult) async => true);
+  Stream<Resource> deleteWarehouse(int id) async* {
+    yield const Resource.Loading(null);
+    await databaseService.warehouse.deleteWarehouse(id);
+    yield const Resource.Success(true);
+  }
 
   @override
   Stream<Resource<Warehouse?>> fetchWarehouse(int id) => networkBoundResource(
           () => databaseService.warehouse.getWarehouse(id),
           () => apiService.warehouse.fetchWarehouse(id), (fetchResult) async {
-        //TODO: any value the below commented code adds?
-        // await databaseService.inventory.replaceInventory(fetchResult.toInventory()).toList();
         databaseService.warehouse.replaceWarehouse(fetchResult.toWarehouse());
       }, (queryResult) async => await isNetworkConnected());
 
   @override
   Stream<Resource<Warehouse>> updateWarehouse(
-          int id, WarehouseAddDto warehouseAddDto) =>
-      networkRequest(
-          () => apiService.warehouse.updateWarehouse(id, warehouseAddDto),
-          (fetchResult) => fetchResult.toWarehouse(), (transformedData) {
-        databaseService.warehouse.replaceWarehouse(transformedData);
-      });
+          int id, WarehouseAddDto warehouseAddDto) async* {
+    yield const Resource.Loading(null);
+    final existing = await databaseService.warehouse.getWarehouse(id).first;
+    if (existing != null) {
+      final updated = Warehouse(
+          id: existing.id,
+          name: warehouseAddDto.name,
+          address: warehouseAddDto.address,
+          createdAt: existing.createdAt,
+          totalInventories: existing.totalInventories);
+      await databaseService.warehouse.replaceWarehouse(updated);
+      yield Resource.Success(updated);
+    } else {
+      yield const Resource.Error("Warehouse not found", null);
+    }
+  }
 }

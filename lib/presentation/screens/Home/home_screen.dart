@@ -87,12 +87,17 @@ class _HomePageState extends State<HomePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: const [
-                    StatusCard(
-                        label: "Low on Stock",
-                        amount: 20,
-                        message: "13 inventories"),
-                    StatusCard(
-                        label: "Low in Shop", amount: 10, message: "3 shops"),
+                    Expanded(
+                      child: StatusCard(
+                          label: "Low on Stock",
+                          amount: 20,
+                          message: "13 inventories"),
+                    ),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: StatusCard(
+                          label: "Low in Shop", amount: 10, message: "3 shops"),
+                    ),
                   ],
                 ),
                 Padding(

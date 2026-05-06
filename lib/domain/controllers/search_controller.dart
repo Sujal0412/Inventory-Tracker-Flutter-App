@@ -26,9 +26,29 @@ class SearchController extends BaseController with FormValidationMixin {
 
   final chosenIcon = true.obs;
 
-  void sellItem() {}
+  void sellItem() {
+    if (quantity.value <= 0) {
+      Get.snackbar("Error", "Quantity must be greater than 0");
+      return;
+    }
+    
+    // Simulate API or Database interaction
+    Get.back(); // Close the dialog
+    Get.snackbar("Success", "Successfully sold ${quantity.value} items via ${paymentMethod.value.name}.");
+    clearForm();
+  }
 
-  void refundItem() {}
+  void refundItem() {
+    if (quantity.value <= 0) {
+      Get.snackbar("Error", "Quantity must be greater than 0");
+      return;
+    }
+    
+    // Simulate API or Database interaction
+    Get.back(); // Close the dialog
+    Get.snackbar("Success", "Successfully refunded ${quantity.value} items.");
+    clearForm();
+  }
 
   void scanBarcode() async {
     queryText.value = await FlutterBarcodeScanner.scanBarcode(

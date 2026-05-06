@@ -47,12 +47,22 @@ class _WarehousePageState extends State<WarehousePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
-                        children: const [
-                          Icon(Icons.delete, size: 18),
-                          SizedBox(
+                        children: [
+                          InkWell(
+                              onTap: () {
+                                wareC.deleteWarehouse(warehouse.id);
+                              },
+                              child: const Icon(Icons.delete, size: 18)),
+                          const SizedBox(
                             width: 10,
                           ),
-                          Icon(Icons.edit, size: 18)
+                          InkWell(
+                              onTap: () {
+                                wareC.clearForm();
+                                Get.dialog(
+                                    wareC.buildEditDialog(context, warehouse));
+                              },
+                              child: const Icon(Icons.edit, size: 18))
                         ],
                       ),
                       RichText(

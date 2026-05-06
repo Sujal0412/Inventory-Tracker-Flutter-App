@@ -103,7 +103,12 @@ class SignupPage extends GetView<AuthController> {
                                 authC.setError = "";
                               }
                             },
-                            validator: (v) => "",
+                            validator: (v) {
+                              if (authC.asManager && (v == null || v.isEmpty)) {
+                                return "Token is required";
+                              }
+                              return null;
+                            },
                           ),
                         ),
                         const SizedBox(height: 20),

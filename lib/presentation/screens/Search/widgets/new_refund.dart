@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide SearchController;
 import 'package:inventory_tracker/core/widgets/custom_dropdown.dart';
 import 'package:inventory_tracker/domain/controllers/search_controller.dart';
 

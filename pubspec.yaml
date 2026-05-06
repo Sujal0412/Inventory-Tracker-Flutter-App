@@ -39,7 +39,7 @@ dependencies:
   flutter_spinkit: ^5.1.0
   material_design_icons_flutter: ^6.0.7096
   font_awesome_flutter: ^10.3.0
-  material_floating_search_bar: ^0.3.7
+  material_floating_search_bar_2: ^0.5.0
   file_picker: ^5.2.7
   excel: ^2.1.0
 
@@ -59,7 +59,7 @@ dependencies:
   country_picker: ^2.0.19
   floor: ^1.4.1
   rive: ^0.9.1
-  fl_chart: ^0.61.0
+  fl_chart: ^0.68.0
   flutter_barcode_scanner: ^2.0.0
   image_picker: ^0.8.6+4
   dropdown_button2: ^2.0.0

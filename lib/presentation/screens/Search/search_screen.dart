@@ -5,7 +5,7 @@ import 'package:inventory_tracker/domain/controllers/search_controller.dart';
 import 'package:inventory_tracker/presentation/screens/Search/delegates/flow.delegate.dart';
 import 'package:inventory_tracker/presentation/screens/Search/widgets/filter_sheet.dart';
 import 'package:inventory_tracker/presentation/screens/Search/widgets/search_result.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
